@@ -18,7 +18,7 @@ An AI-powered system that uses computer vision to analyze patient movements duri
 - **Computer Vision**: MediaPipe Pose
 - **Database**: Firebase Firestore
 - **Authentication**: Firebase Auth
-- **AI Services**:
+- **AI Services**: 
   - Google Vertex AI (Model deployment)
   - Google Gemini API (Feedback generation)
 
@@ -44,14 +44,12 @@ PhysioSense_Ai/
 ### Installation
 
 1. Clone the repository:
-
 ```bash
 git clone <repository-url>
 cd PhysioSense_Ai
 ```
 
 2. Install dependencies:
-
 ```bash
 npm run install-all
 ```
@@ -59,7 +57,6 @@ npm run install-all
 3. Set up environment variables:
 
 **Server (.env):**
-
 ```env
 PORT=5000
 FIREBASE_PROJECT_ID=your-project-id
@@ -71,7 +68,6 @@ VERTEX_AI_LOCATION=us-central1
 ```
 
 **Client (.env):**
-
 ```env
 REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
 REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
@@ -83,13 +79,11 @@ REACT_APP_API_URL=http://localhost:5000
 ```
 
 4. Start the development servers:
-
 ```bash
 npm run dev
 ```
 
 The application will be available at:
-
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5000
 

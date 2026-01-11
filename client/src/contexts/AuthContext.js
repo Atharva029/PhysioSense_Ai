@@ -17,58 +17,46 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  function register(email, password, displayName) {
-    if (!auth) {
-      return Promise.reject(new Error('Firebase is not configured. Please set up Firebase in client/.env'));
-    }
-    return createUserWithEmailAndPassword(auth, email, password).then(
-      async (userCredential) => {
-        // Register user in backend
-        try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/register`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, displayName }),
-          });
-          if (!response.ok) {
-            console.warn('Backend registration failed:', await response.text());
-          }
-        } catch (error) {
-          console.warn('Backend registration error:', error);
-        }
-        return userCredential;
+  async function register(email, password, displayName) {
+    try {
+      // Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Register user in backend
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, displayName }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Backend registration error:', errorData);
+        // Note: User is already created in Firebase Auth at this point
+        // In production, you might want to handle this differently
       }
-    );
+      
+      return userCredential;
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
   }
 
   function login(email, password) {
-    if (!auth) {
-      return Promise.reject(new Error('Firebase is not configured. Please set up Firebase in client/.env'));
-    }
     return signInWithEmailAndPassword(auth, email, password);
   }
 
   function logout() {
-    if (!auth) {
-      return Promise.resolve();
-    }
     return signOut(auth);
   }
 
   useEffect(() => {
-    if (!auth) {
-      // If Firebase is not configured, just set loading to false
-      setLoading(false);
-      return;
-    }
-
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       if (user) {
         user.getIdToken().then((token) => {
           localStorage.setItem('token', token);
-        }).catch((error) => {
-          console.warn('Token error:', error);
         });
       } else {
         localStorage.removeItem('token');
