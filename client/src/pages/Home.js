@@ -26,7 +26,7 @@ function Home() {
         <div className="landing-navbar-container">
           <div className="logo-section">
             <div className="logo-icon">AI</div>
-            <span className="logo-text">PhysioSenseAi</span>
+            <span className="logo-text">PhysioSense AI</span>
           </div>
           <div className="landing-nav-links">
             <a href="#features" className="landing-nav-link" onClick={(e) => {
@@ -64,14 +64,14 @@ function Home() {
           <h1 className="home-headline">
             One Account.
             <br />
-            <span className="headline-highlight">AI + you = PhysioSenseAi</span>
+            <span className="headline-highlight">AI + you = PhysioSense AI</span>
             <br />
             Future ready.
           </h1>
 
           {/* Description */}
           <p className="home-description">
-            Access PhysioSenseAi with intelligent exercise monitoring. Streamline your recovery 
+            Access PhysioSense AI with intelligent exercise monitoring. Streamline your recovery 
             with AI-powered real-time feedback and progress tracking.
           </p>
 

@@ -19,8 +19,9 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/dashboard" className="navbar-brand">
-          PhysioSense AI
+        <Link to="/dashboard" className="navbar-brand-section">
+          <div className="navbar-logo-icon">AI</div>
+          <span className="navbar-brand">PhysioSense AI</span>
         </Link>
         {currentUser && (
           <div className="navbar-menu">

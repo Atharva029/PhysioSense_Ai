@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { initializePose, stopPose, extractKeypoints } from '../utils/poseEstimation';
 import api from '../config/api';
 import '../App.css';
+import './ExerciseSession.css';
 
 function ExerciseSession() {
   const { exerciseName } = useParams();
@@ -42,15 +43,34 @@ function ExerciseSession() {
 
   const initializeCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 640, height: 480 },
-      });
+      // Request camera permissions with fallback constraints
+      const constraints = {
+        video: {
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+          facingMode: 'user'
+        },
+        audio: false
+      };
+      
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         await initializePose(videoRef.current, canvasRef.current, handlePoseResults);
       }
     } catch (err) {
-      setError('Failed to access camera: ' + err.message);
+      // Provide more helpful error messages
+      let errorMessage = 'Failed to access camera: ';
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDenied') {
+        errorMessage += 'Permission denied. Please allow camera access in your browser settings.';
+      } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+        errorMessage += 'No camera device found. Please connect a camera.';
+      } else if (err.name === 'NotReadableError') {
+        errorMessage += 'Camera is already in use. Please close other applications using the camera.';
+      } else {
+        errorMessage += err.message;
+      }
+      setError(errorMessage);
     }
   };
 
@@ -118,124 +138,114 @@ function ExerciseSession() {
   };
 
   return (
-    <div className="container" style={{ paddingTop: '40px' }}>
-      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-        <div className="card" style={{ flex: '1', minWidth: '300px' }}>
-          <h2 style={{ marginBottom: '20px' }}>
-            {decodeURIComponent(exerciseName)}
-          </h2>
-          
-          <div style={{ position: 'relative', marginBottom: '20px' }}>
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              style={{
-                width: '100%',
-                borderRadius: '8px',
-                transform: 'scaleX(-1)',
-              }}
-            />
-            <canvas
-              ref={canvasRef}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                transform: 'scaleX(-1)',
-              }}
-              width={640}
-              height={480}
-            />
-          </div>
+    <div className="exercise-page">
+      <div className="exercise-container">
+        <div className="exercise-video-section">
+          <div className="exercise-card">
+            <h2 className="exercise-title">
+              {decodeURIComponent(exerciseName)}
+            </h2>
+            
+            <div className="exercise-video-wrapper">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                style={{
+                  transform: 'scaleX(-1)',
+                }}
+              />
+              <canvas
+                ref={canvasRef}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  transform: 'scaleX(-1)',
+                }}
+                width={640}
+                height={480}
+              />
+            </div>
 
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-            {!isRecording ? (
+            <div className="exercise-buttons">
+              {!isRecording ? (
+                <button
+                  className="exercise-button exercise-button-start"
+                  onClick={startRecording}
+                >
+                  Start Recording
+                </button>
+              ) : (
+                <button
+                  className="exercise-button exercise-button-stop"
+                  onClick={stopRecording}
+                >
+                  Stop & Save
+                </button>
+              )}
               <button
-                className="btn btn-success"
-                onClick={startRecording}
-                style={{ flex: 1 }}
+                className="exercise-button exercise-button-cancel"
+                onClick={() => navigate('/dashboard')}
               >
-                Start Recording
+                Cancel
               </button>
-            ) : (
-              <button
-                className="btn btn-danger"
-                onClick={stopRecording}
-                style={{ flex: 1 }}
-              >
-                Stop & Save
-              </button>
-            )}
-            <button
-              className="btn btn-secondary"
-              onClick={() => navigate('/dashboard')}
-              style={{ flex: 1 }}
-            >
-              Cancel
-            </button>
-          </div>
+            </div>
 
-          {error && <div className="error">{error}</div>}
+            {error && <div className="exercise-error">{error}</div>}
+          </div>
         </div>
 
-        <div className="card" style={{ flex: '1', minWidth: '300px' }}>
-          <h3 style={{ marginBottom: '20px' }}>Live Analysis</h3>
-          
-          {isRecording && (
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <span>Repetitions:</span>
-                <strong>{repetitions}</strong>
-              </div>
-              {analysis && (
-                <>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                    <span>Form Score:</span>
-                    <strong style={{ color: analysis.formScore > 70 ? '#28a745' : '#dc3545' }}>
-                      {analysis.formScore}/100
-                    </strong>
-                  </div>
-                  {analysis.deviations && analysis.deviations.length > 0 && (
-                    <div style={{ marginTop: '15px' }}>
-                      <strong>Issues Detected:</strong>
-                      <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
-                        {analysis.deviations.map((dev, idx) => (
-                          <li key={idx} style={{ color: '#dc3545', marginBottom: '5px' }}>
-                            {dev.description} ({dev.severity})
-                          </li>
-                        ))}
-                      </ul>
+        <div className="exercise-analysis-section">
+          <div className="exercise-card">
+            <h3 className="analysis-title">Live Analysis</h3>
+            
+            {isRecording && (
+              <div>
+                <div className="analysis-stat">
+                  <span className="analysis-label">Repetitions:</span>
+                  <span className="analysis-value">{repetitions}</span>
+                </div>
+                {analysis && (
+                  <>
+                    <div className="analysis-stat">
+                      <span className="analysis-label">Form Score:</span>
+                      <span className="analysis-value" style={{ color: analysis.formScore > 70 ? '#28a745' : '#dc3545' }}>
+                        {analysis.formScore}/100
+                      </span>
                     </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-
-          {feedback && (
-            <div style={{ marginTop: '20px' }}>
-              <h4 style={{ marginBottom: '10px' }}>AI Feedback:</h4>
-              <div
-                style={{
-                  background: '#f8f9fa',
-                  padding: '15px',
-                  borderRadius: '8px',
-                  lineHeight: '1.6',
-                }}
-              >
-                {feedback}
+                    {analysis.deviations && analysis.deviations.length > 0 && (
+                      <div className="analysis-issues">
+                        <div className="analysis-issues-title">Issues Detected:</div>
+                        <ul>
+                          {analysis.deviations.map((dev, idx) => (
+                            <li key={idx}>
+                              {dev.description} ({dev.severity})
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
-            </div>
-          )}
+            )}
 
-          {!isRecording && (
-            <p style={{ color: '#666', fontStyle: 'italic' }}>
-              Click "Start Recording" to begin your exercise session.
-            </p>
-          )}
+            {feedback && (
+              <div className="feedback-section">
+                <div className="feedback-title">AI Feedback:</div>
+                <div className="feedback-text">
+                  {feedback}
+                </div>
+              </div>
+            )}
+
+            {!isRecording && (
+              <p className="placeholder-message">
+                Click "Start Recording" to begin your exercise session.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ function Login() {
         <div className="auth-logo">
           <Link to="/" className="auth-logo-link">
             <div className="auth-logo-icon">AI</div>
-            <span className="auth-logo-text">PhysioSenseAi</span>
+            <span className="auth-logo-text">PhysioSense AI</span>
           </Link>
         </div>
         <div className="auth-card">
