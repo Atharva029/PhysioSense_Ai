@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Exercise - PhysioSenseAI</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="navbar">
+            <div class="container navbar-container">
+                <a href="dashboard.html" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>PhysioSenseAI</span>
+                </a>
+                <div class="nav-links">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="exercise.html" class="nav-link active">Start Exercise</a>
+                    <a href="history.html" class="nav-link">Session History</a>
+                </div>
+                <div class="nav-user">
+                    <span id="user-email" class="user-email"></span>
+                    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-nav" id="mobile-nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="exercise.html" class="nav-link active">Start Exercise</a>
+                <a href="history.html" class="nav-link">Session History</a>
+                <button id="mobile-logout-btn" class="btn btn-outline btn-sm">Logout</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Select Your Exercise</h1>
+                    <p>Choose a physiotherapy exercise to begin your session</p>
+                </div>
+
+                <div class="exercise-grid">
+                    <div class="exercise-card" data-exercise="shoulder-abduction">
+                        <div class="exercise-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h3>Shoulder Abduction</h3>
+                        <p>Strengthen your shoulder muscles by lifting your arm away from your body</p>
+                        <div class="exercise-meta">
+                            <span class="difficulty easy">Beginner</span>
+                            <span class="duration">5-10 reps</span>
+                        </div>
+                        <button class="btn btn-primary btn-block start-exercise-btn">Start Exercise</button>
+                    </div>
+
+                    <div class="exercise-card" data-exercise="knee-flexion">
+                        <div class="exercise-icon icon-success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                                <line x1="6" y1="1" x2="6" y2="4"></line>
+                                <line x1="10" y1="1" x2="10" y2="4"></line>
+                                <line x1="14" y1="1" x2="14" y2="4"></line>
+                            </svg>
+                        </div>
+                        <h3>Knee Flexion</h3>
+                        <p>Improve knee mobility by bending and straightening your leg</p>
+                        <div class="exercise-meta">
+                            <span class="difficulty medium">Intermediate</span>
+                            <span class="duration">10-15 reps</span>
+                        </div>
+                        <button class="btn btn-primary btn-block start-exercise-btn">Start Exercise</button>
+                    </div>
+
+                    <div class="exercise-card" data-exercise="arm-raise">
+                        <div class="exercise-icon icon-accent">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
+                        </div>
+                        <h3>Arm Raise</h3>
+                        <p>Build upper body strength by raising your arms overhead</p>
+                        <div class="exercise-meta">
+                            <span class="difficulty easy">Beginner</span>
+                            <span class="duration">8-12 reps</span>
+                        </div>
+                        <button class="btn btn-primary btn-block start-exercise-btn">Start Exercise</button>
+                    </div>
+
+                    <div class="exercise-card" data-exercise="squats">
+                        <div class="exercise-icon icon-warning">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Squats</h3>
+                        <p>Strengthen lower body muscles with proper squat form</p>
+                        <div class="exercise-meta">
+                            <span class="difficulty hard">Advanced</span>
+                            <span class="duration">10-15 reps</span>
+                        </div>
+                        <button class="btn btn-primary btn-block start-exercise-btn">Start Exercise</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/exercise.js"></script>
+</body>
+</html>
