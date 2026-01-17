@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session History - PhysioSenseAI</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="navbar">
+            <div class="container navbar-container">
+                <a href="dashboard.html" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>PhysioSenseAI</span>
+                </a>
+                <div class="nav-links">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="exercise.html" class="nav-link">Start Exercise</a>
+                    <a href="history.html" class="nav-link active">Session History</a>
+                </div>
+                <div class="nav-user">
+                    <span id="user-email" class="user-email"></span>
+                    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-nav" id="mobile-nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="exercise.html" class="nav-link">Start Exercise</a>
+                <a href="history.html" class="nav-link active">Session History</a>
+                <button id="mobile-logout-btn" class="btn btn-outline btn-sm">Logout</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Session History</h1>
+                    <p>View your past exercise sessions and track your progress</p>
+                </div>
+
+                <div class="history-stats">
+                    <div class="history-stat-card">
+                        <h3 id="total-sessions">0</h3>
+                        <p>Total Sessions</p>
+                    </div>
+                    <div class="history-stat-card">
+                        <h3 id="total-reps">0</h3>
+                        <p>Total Reps</p>
+                    </div>
+                    <div class="history-stat-card">
+                        <h3 id="avg-accuracy">0%</h3>
+                        <p>Avg. Accuracy</p>
+                    </div>
+                    <div class="history-stat-card">
+                        <h3 id="total-time">0 min</h3>
+                        <p>Total Time</p>
+                    </div>
+                </div>
+
+                <div class="history-list-container">
+                    <div class="history-header">
+                        <h2>Past Sessions</h2>
+                        <select id="filter-exercise" class="filter-select">
+                            <option value="">All Exercises</option>
+                            <option value="shoulder-abduction">Shoulder Abduction</option>
+                            <option value="knee-flexion">Knee Flexion</option>
+                            <option value="arm-raise">Arm Raise</option>
+                            <option value="squats">Squats</option>
+                        </select>
+                    </div>
+                    <div id="history-list" class="history-list">
+                        <div class="loading-state">
+                            <svg class="spinner" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="32" stroke-linecap="round"></circle>
+                            </svg>
+                            <p>Loading session history...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/history.js"></script>
+</body>
+</html>
