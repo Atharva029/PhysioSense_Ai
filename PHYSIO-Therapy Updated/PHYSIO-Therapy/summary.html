@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Summary - PhysioSenseAI</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="navbar">
+            <div class="container navbar-container">
+                <a href="dashboard.html" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>PhysioSenseAI</span>
+                </a>
+                <div class="nav-links">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="exercise.html" class="nav-link">Start Exercise</a>
+                    <a href="history.html" class="nav-link">Session History</a>
+                </div>
+                <div class="nav-user">
+                    <span id="user-email" class="user-email"></span>
+                    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-nav" id="mobile-nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="exercise.html" class="nav-link">Start Exercise</a>
+                <a href="history.html" class="nav-link">Session History</a>
+                <button id="mobile-logout-btn" class="btn btn-outline btn-sm">Logout</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <div class="summary-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <h1>Remote Rehab Session Complete</h1>
+                        <p id="exercise-name">Remote Rehab Session</p>
+                        <p class="helper-text">This session can be reviewed asynchronously by a physiotherapist.</p>
+                    </div>
+
+                    <div class="summary-stats">
+                        <div class="summary-stat primary">
+                            <div class="stat-circle">
+                                <svg viewBox="0 0 36 36" class="circular-chart">
+                                    <path class="circle-bg" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="circle" id="accuracy-circle" stroke-dasharray="0, 100" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <span class="stat-value" id="accuracy-value">0%</span>
+                            </div>
+                            <span class="stat-label">Correct Posture %</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-value" id="correct-count">0</span>
+                            <span class="stat-label">Correct Reps</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-value" id="incorrect-count">0</span>
+                            <span class="stat-label">Incorrect Reps</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-value" id="duration">0:00</span>
+                            <span class="stat-label">Duration</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-value" id="posture-checks">0</span>
+                            <span class="stat-label">Posture Checks</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-value" id="incorrect-percent">0%</span>
+                            <span class="stat-label">Incorrect Posture %</span>
+                        </div>
+                    </div>
+
+                    <div class="ai-advice">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 9v2m0 4h.01"></path>
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            </svg>
+                            Risk Flag
+                        </h3>
+                        <div class="advice-content">
+                            <p><span id="risk-summary-badge" class="risk-badge normal">Normal</span></p>
+                            <p id="risk-explanation">No risk flags detected.</p>
+                        </div>
+                    </div>
+
+                    <div class="ai-advice">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            Common Mistakes Detected
+                        </h3>
+                        <div id="mistakes-content" class="advice-content">
+                            <p>No common mistakes detected.</p>
+                        </div>
+                    </div>
+
+                    <div class="ai-advice">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            AI Rehab Recommendation
+                        </h3>
+                        <div id="advice-content" class="advice-content">
+                            <div class="loading-state">
+                                <svg class="spinner" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="32" stroke-linecap="round"></circle>
+                                </svg>
+                                <p>Generating personalized advice...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ai-advice">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                            </svg>
+                            Recovery Recommendation
+                        </h3>
+                        <div class="advice-content">
+                            <p id="recovery-recommendation">-</p>
+                        </div>
+                    </div>
+
+                    <div class="summary-actions">
+                        <a href="exercise.html" class="btn btn-primary btn-lg">Start New Exercise</a>
+                        <a href="dashboard.html" class="btn btn-outline btn-lg">Back to Dashboard</a>
+                        <button id="send-review-btn" class="btn btn-success btn-lg">Send Session to Physiotherapist</button>
+                    </div>
+
+                    <div id="send-review-notice"></div>
+
+                    <div class="dashboard-card impact-card">
+                        <h3>Hospital Impact</h3>
+                        <p>This remote rehab workflow helps hospitals scale physiotherapy delivery while reducing manual supervision.</p>
+                        <ul>
+                            <li>Reduced in-person rehab visits for routine supervision</li>
+                            <li>Scalable remote monitoring across more patients</li>
+                            <li>Therapist time saved via asynchronous review and risk prioritization</li>
+                            <li>Standardized rehab quality using consistent AI assessments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/summary.js"></script>
+</body>
+</html>
